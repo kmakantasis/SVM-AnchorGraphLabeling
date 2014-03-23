@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Script for features extraction
+# Script for representatives extraction
 
 
 import numpy as np
