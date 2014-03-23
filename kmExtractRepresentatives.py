@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Script for features extraction
 
 import numpy as np
 import scipy.io
