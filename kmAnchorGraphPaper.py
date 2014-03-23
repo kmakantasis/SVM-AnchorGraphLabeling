@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# All functions of ICML paper
 
 import numpy as np
 import scipy.spatial.distance as sciDist
