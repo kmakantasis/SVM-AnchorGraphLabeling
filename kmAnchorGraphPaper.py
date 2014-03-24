@@ -44,7 +44,12 @@ def AnchorGraph(TrainData, Anchor, s, flag, cn):
     return Z, rL
     
 
-        
+def AnchorGraphReg(Z, rL, ground, label_index, gamma): 
+    n, m = Z.shape[0], Z.shape[1]
+    ln = label_index.shape[1];
+    C = ground.max();
+
+    Yl = np.zeros((ln,C));
     
         
         
