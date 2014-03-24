@@ -12,5 +12,15 @@ labels = data_mat['labels']
 rep_0 = data_mat['rep_0']
 rep_1 = data_mat['rep_1']
 
-Z, rL = kmAnchorGraphPaper.AnchorGraph(data, np.concatenate((rep_0, rep_1), axis=0), 10, 0, 15)
+representatives = np.concatenate((rep_0, rep_1))
+label_index = np.zeros((1,len(representatives)))
+for j in range(len(representatives)):      
+    for i in range(len(data)):
+        if np.array_equal(data[i], representatives[j]):
+            label_index[0,j] = i
+            
+
+label_index = label_index.astype(np.int)
+
+Z, rL = kmAnchorGraphPaper.AnchorGraph(data, representatives, 10, 0, 15)
 
