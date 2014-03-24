@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Main script for anchor graph
 
 import numpy as np
 import scipy.io
