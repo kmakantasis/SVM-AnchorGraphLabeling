@@ -20,7 +20,9 @@ for j in range(len(representatives)):
             label_index[0,j] = i
             
 
+labels = labels + 1
 label_index = label_index.astype(np.int)
 
 Z, rL = kmAnchorGraphPaper.AnchorGraph(data, representatives, 10, 0, 15)
 
+F, A, err = kmAnchorGraphPaper.AnchorGraphReg(Z, rL, labels+1, label_index, 0.01)
