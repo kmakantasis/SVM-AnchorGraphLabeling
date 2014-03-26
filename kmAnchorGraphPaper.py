@@ -51,15 +51,27 @@ def AnchorGraphReg(Z, rL, ground, label_index, gamma):
 
     Yl = np.zeros((ln,C));
     
+    for i in range(ln):
+        if ground[0,label_index[0,i]] == 1:
+            Yl[i,0] = 1
+        else:
+            Yl[i,1] = 1
+    
+    Zl = Z[label_index[0,:].T - 1, :]
+    LM = np.dot(Zl.T, Zl) + gamma*rL
+    RM = np.dot(Zl.T, Yl)
+    A = np.dot(np.linalg.pinv((LM + np.eye(m)*1e-6)), RM)
+    F = np.dot(Z, A)    
+    F1 = np.dot(F, np.diag(np.sum(F, axis=0)**(-1))) 
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
+    #temp = np.max(F1, axis=1)    
+    order = np.argmax(F1, axis=1) + 1    
+    output = order.T    
+    output[label_index[0,:]] = ground[0,label_index[0,:]].astype(np.int)    
+    
+    temp_err = [i for i in range(len(output)) if output[i] != ground[0,i]]
+    err = len(temp_err)/float((n-ln)) 
+    
+    return F, A, err
         
         
