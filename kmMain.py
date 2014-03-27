@@ -4,6 +4,7 @@
 import numpy as np
 import scipy.io
 import kmAnchorGraphPaper
+import kmClassification
 
 
 data_mat = scipy.io.loadmat('data.mat')
@@ -20,9 +21,17 @@ for j in range(len(representatives)):
             label_index[0,j] = i
             
 
-labels = labels + 1
+ground = labels + 1
 label_index = label_index.astype(np.int)
 
 Z, rL = kmAnchorGraphPaper.AnchorGraph(data, representatives, 10, 0, 15)
+F, A, ss_err = kmAnchorGraphPaper.AnchorGraphReg(Z, rL, ground, label_index, 0.01)
 
-F, A, err = kmAnchorGraphPaper.AnchorGraphReg(Z, rL, labels, label_index, 0.01)
+SSLabels = np.zeros((F.shape[0],))
+for i in range(len(SSLabels)):
+    SSLabels[i] = np.argmax(F[i,:])
+    
+
+predictions, clf_err = kmClassification.SVMs(data, data, SSLabels, SSLabels)
+
+
