@@ -32,6 +32,12 @@ for i in range(len(SSLabels)):
     SSLabels[i] = np.argmax(F[i,:])
     
 
-predictions, clf_err = kmClassification.SVMs(data, data, SSLabels, SSLabels)
+trainData = np.concatenate((data[0:800], data[1000:1600]))
+trainLabels = np.concatenate((SSLabels[0:800], SSLabels[1000:1600]))
+testData = np.concatenate((data[801:999], data[1601:-1]))
+testLabels = np.concatenate((SSLabels[801:999], SSLabels[1601:-1]))
+
+
+predictions, clf_err = kmClassification.SVMs(trainData, testData, trainLabels, testLabels)
 
 
