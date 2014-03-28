@@ -2,16 +2,12 @@
 # Main script for anchor graph
 
 import numpy as np
-import scipy.io
 import kmAnchorGraphPaper
 import kmClassification
+import kmLoadDataMat
 
 
-data_mat = scipy.io.loadmat('data.mat')
-data = data_mat['data']
-labels = data_mat['labels']
-rep_0 = data_mat['rep_0']
-rep_1 = data_mat['rep_1']
+data, labels, rep_0, rep_1 = kmLoadDataMat.LoadData('data_2.mat', precomputed=True)
 
 representatives = np.concatenate((rep_0, rep_1))
 label_index = np.zeros((1,len(representatives)))
