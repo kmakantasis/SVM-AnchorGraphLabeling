@@ -34,7 +34,7 @@ testData = np.concatenate((data[801:999], data[1601:-1]))
 testLabels = np.concatenate((SSLabels[801:999], SSLabels[1601:-1]))
 
 
-predictions, clf_err = kmClassification.SVMs(trainData, testData, trainLabels, testLabels)
+predictions_w, predictions_nw, clf_err_w, clf_err_nw = kmClassification.SVMs(trainData, testData, trainLabels, testLabels, representatives)
 
 importance = kmClassification.FeaturesImportance(trainData, trainLabels)
 
