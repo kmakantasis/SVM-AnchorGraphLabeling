@@ -4,6 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import svm
 from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.decomposition import RandomizedPCA
+
 
 
 def SVMs(trainData, testData, trainLabels, testLabels, representatives):
@@ -61,4 +63,71 @@ def FeaturesImportance(trainData, trainLabels):
     plt.show()
     
     return importances
+    
+
+
+def PlotSVMs(trainData, trainLabels):
+    pca = RandomizedPCA(n_components=2)
+    pca.fit(trainData.T)
+    tData = pca.components_
+    X = tData.T
+    y = trainLabels    
+    
+    n_sample = len(X)
+    np.random.seed(0)
+    order = np.random.permutation(n_sample)
+    X = X[order]
+    y = y[order].astype(np.float)
+
+    X_train = X[:int(.9 * n_sample)]
+    y_train = y[:int(.9 * n_sample)]
+    X_test = X[int(.9 * n_sample):]
+    #y_test = y[int(.9 * n_sample):]
+
+    # fit the model
+    for fig_num, c in enumerate((1, 3, 9)):
+        clf = svm.SVC(C=c)
+        clf.fit(X_train, y_train)
+
+        plt.figure(fig_num)
+        plt.clf()
+        #plt.scatter(X[:, 0], X[:, 1], c=y, zorder=10, cmap=plt.cm.Paired)
+
+        # Circle out the test data
+        plt.scatter(X_test[:, 0], X_test[:, 1], s=80, facecolors='none', zorder=10)
+
+        plt.axis('tight')
+        x_min = X[:, 0].min()
+        x_max = X[:, 0].max()
+        y_min = X[:, 1].min()
+        y_max = X[:, 1].max()
+
+        XX, YY = np.mgrid[x_min:x_max:200j, y_min:y_max:200j]
+        Z = clf.decision_function(np.c_[XX.ravel(), YY.ravel()])
+
+        # Put the result into a color plot
+        Z = Z.reshape(XX.shape)
+        plt.pcolormesh(XX, YY, Z > 0, cmap=plt.cm.Paired)
+        plt.contour(XX, YY, Z, colors=['k', 'k', 'k'], linestyles=['--', '-', '--'], levels=[-.5, 0, .5])
+
+        plt.title(c)
+    plt.show()
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
