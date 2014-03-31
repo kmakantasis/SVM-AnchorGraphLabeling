@@ -85,18 +85,17 @@ def PlotSVMs(trainData, trainLabels):
     #y_test = y[int(.9 * n_sample):]
 
     # fit the model
+    fig = plt.figure(1)
     for fig_num, c in enumerate((1, 3, 9)):
         clf = svm.SVC(C=c)
         clf.fit(X_train, y_train)
 
-        plt.figure(fig_num)
-        plt.clf()
+        fig.add_subplot(1, 3, fig_num + 1)
+
         #plt.scatter(X[:, 0], X[:, 1], c=y, zorder=10, cmap=plt.cm.Paired)
 
         # Circle out the test data
         plt.scatter(X_test[:, 0], X_test[:, 1], s=80, facecolors='none', zorder=10)
-
-        plt.axis('tight')
         x_min = X[:, 0].min()
         x_max = X[:, 0].max()
         y_min = X[:, 1].min()
@@ -110,8 +109,9 @@ def PlotSVMs(trainData, trainLabels):
         plt.pcolormesh(XX, YY, Z > 0, cmap=plt.cm.Paired)
         plt.contour(XX, YY, Z, colors=['k', 'k', 'k'], linestyles=['--', '-', '--'], levels=[-.5, 0, .5])
 
-        plt.title(c)
-    plt.show()
+        plt.title('C = %d' % c)
+        
+    plt.show(1)
 
     
     
